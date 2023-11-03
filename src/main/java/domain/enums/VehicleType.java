@@ -9,7 +9,7 @@ public enum VehicleType {
     BICYCLE(20),
     DISABLED_VEHICLE(30);
 
-    Integer price;
+    final Integer price;
 
     VehicleType(Integer price) {
         this.price = price;

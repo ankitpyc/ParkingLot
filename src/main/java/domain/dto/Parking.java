@@ -1,4 +1,4 @@
-package domain;
+package domain.dto;
 
 import domain.enums.ParkingLevel;
 import domain.enums.VehicleType;

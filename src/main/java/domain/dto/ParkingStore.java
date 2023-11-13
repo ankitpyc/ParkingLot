@@ -1,9 +1,11 @@
-package database;
+package domain.dto;
 
 import database.interfaces.ParkingStoreInf;
 import domain.ParkingLevelDetails;
+import domain.enums.EventType;
 import domain.enums.ParkingLevel;
 import domain.enums.VehicleType;
+import domain.observerSubscribe.Observer;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ParkingStore implements ParkingStoreInf {
+public class ParkingStore implements ParkingStoreInf, Observer {
     Map<ParkingLevel, ParkingLevelDetails> parkingLevelDetails;
 
     public ParkingStore() {
@@ -27,7 +29,6 @@ public class ParkingStore implements ParkingStoreInf {
     }
 
     private ParkingLevel getParkingLevel(VehicleType vehicleType) {
-
         for (Map.Entry<ParkingLevel, ParkingLevelDetails> details : parkingLevelDetails.entrySet()) {
             ParkingLevelDetails details1 = details.getValue();
             if (details1.getParkingDetails().get(vehicleType) > 0) {
@@ -42,5 +43,22 @@ public class ParkingStore implements ParkingStoreInf {
         ParkingLevelDetails parkingDetails = parkingLevelDetails.get(parkingLevel);
         int parkingSlotsOccupied = parkingDetails.getParkingDetails().get(vehicleType);
         parkingDetails.getParkingDetails().put(vehicleType, parkingSlotsOccupied + 1);
+    }
+
+    @Override
+    public void onChange(Object object, EventType eventType) {
+        ParkingTicket parkingTicket = null;
+        int totalAvailableSlots = this.parkingLevelDetails.get(parkingTicket.getParkingLevel()).getParkingDetails().get(parkingTicket.getVehicleType());
+        switch (eventType) {
+            case PARKING_SLOT_BOOKED:
+                parkingTicket = (ParkingTicket) object;
+                this.parkingLevelDetails.get(parkingTicket.getParkingLevel()).getParkingDetails().put(parkingTicket.getVehicleType(), totalAvailableSlots - 1);
+            case PARKING_SLOT_EMPTY:
+                parkingTicket = (ParkingTicket) object;
+                totalAvailableSlots = this.parkingLevelDetails.get(parkingTicket.getParkingLevel()).getParkingDetails().get(parkingTicket.getVehicleType());
+                this.parkingLevelDetails.get(parkingTicket.getParkingLevel()).getParkingDetails().put(parkingTicket.getVehicleType(), totalAvailableSlots + 1);
+            case ADDED_NEW_SLOT:
+                this.parkingLevelDetails.get(parkingTicket.getParkingLevel()).getParkingDetails().put(parkingTicket.getVehicleType(), totalAvailableSlots + 1);
+        }
     }
 }

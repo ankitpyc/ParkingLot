@@ -1,4 +1,4 @@
-package database;
+package domain.dto;
 
 import domain.enums.ParkingLevel;
 import lombok.AllArgsConstructor;

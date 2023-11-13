@@ -1,6 +1,6 @@
 package database.interfaces;
 
-import database.ParkingSlot;
+import domain.dto.ParkingSlot;
 import domain.enums.ParkingLevel;
 import domain.enums.VehicleType;
 

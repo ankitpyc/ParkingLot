@@ -6,7 +6,9 @@ import domain.enums.EventType;
 import domain.enums.ParkingLevel;
 import domain.enums.VehicleType;
 import domain.observerSubscribe.Observer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.TicketService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,8 +18,12 @@ import java.util.Map;
 public class ParkingStore implements ParkingStoreInf, Observer {
     Map<ParkingLevel, ParkingLevelDetails> parkingLevelDetails;
 
+    @Autowired
+    TicketService ticketGenerator;
+
     public ParkingStore() {
         this.parkingLevelDetails = new HashMap<>();
+        ticketGenerator.addObserver(this);
     }
 
     @Override

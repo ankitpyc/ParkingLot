@@ -59,6 +59,6 @@ public class Main {
 
 Feel free to contribute to the development of this parking lot system. Open issues, submit pull requests, and share your ideas!
 
-License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

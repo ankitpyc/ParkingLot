@@ -1,12 +1,11 @@
 package database.interfaces;
 
-import domain.dto.ParkingSlot;
-import domain.enums.ParkingLevel;
-import domain.enums.VehicleType;
+import domain.Vehicle;
+import domain.dto.Ticket.ParkingTicket;
 
 public interface ParkingStoreInf {
-    public ParkingSlot getParkingSlot(VehicleType vehicleType, String vehicleNo);
+    public ParkingTicket getParkingTicket(Vehicle vehicle);
 
-    public void freeParkingSlot(ParkingLevel parkingLevel, VehicleType vehicleType);
+    public void freeParkingSlot(ParkingTicket parkingTicket);
 
 }

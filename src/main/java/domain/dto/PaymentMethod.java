@@ -1,6 +1,7 @@
 package domain.dto;
 
-public interface PaymentMethod {
-    public Double getCashBack();
+public enum PaymentMethod {
+    UPI,
+    CASH
 
 }

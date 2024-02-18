@@ -1,6 +1,6 @@
 package domain.dto;
 
-import domain.enums.ParkingLevel;
+import domain.dto.Parking.parkingBoard.ParkingLevel;
 import domain.enums.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 @Data
 @AllArgsConstructor
-public class Parking {
+public class parking {
     String parkingId;
     String parkingType;
     ParkingLevel parkingLevel;

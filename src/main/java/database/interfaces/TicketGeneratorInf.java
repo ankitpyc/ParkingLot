@@ -1,11 +1,9 @@
 package database.interfaces;
 
-import domain.dto.ParkingSlot;
-import domain.dto.ParkingTicket;
+import domain.dto.Ticket.ParkingTicket;
 
 public interface TicketGeneratorInf {
 
-    public ParkingTicket generateParkingTicket(ParkingSlot parkingSlot);
 
     public ParkingTicket calculateFare(ParkingTicket parkingTicket);
 

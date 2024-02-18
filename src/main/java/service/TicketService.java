@@ -1,15 +1,17 @@
 package service;
 
-import domain.dto.ParkingSlot;
-import domain.dto.ParkingTicket;
-import domain.dto.PaymentMethod;
+import domain.Vehicle;
+import domain.dto.Ticket.ParkingTicket;
 import database.interfaces.TicketGeneratorInf;
+import domain.dto.PaymentMethod;
+import domain.dto.enums.PaymentStatus;
 import domain.enums.EventType;
 import domain.observerSubscribe.Observer;
 import domain.observerSubscribe.Subject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +30,21 @@ public class TicketService implements TicketGeneratorInf, Subject {
     }
 
 
-    @Override
-    public ParkingTicket generateParkingTicket(ParkingSlot parkingSlot) {
-        ParkingTicket parkingTicket = ParkingTicket.builder().parkingLevel(parkingSlot.getParkingLevel()).parkingEntryDateTime(parkingSlot.getParkingEntryTime()).vehicleNumber(parkingSlot.getVehicleNo()).build();
-        notifyObserver(parkingTicket, EventType.PARKING_SLOT_BOOKED);
+    public ParkingTicket generateParkingTicket(Vehicle vehicle,int parkingLevel) {
+        ParkingTicket parkingTicket = ParkingTicket.builder()
+                .parkingLevel(parkingLevel)
+                .parkingEntryDateTime(Instant.now())
+                .vehicleNumber(vehicle.getVehicleNumber())
+                .parkingDuration(vehicle.getParkingDuration())
+                .paymentStatus(PaymentStatus.PAYMENT_PENDING)
+                .build();
         return parkingTicket;
     }
+
+    public Double calculateParkingAmount(ParkingTicket parkingTicket){
+        return Double.valueOf(((parkingTicket.getParkingDuration().getSeconds())/3600) * parkingTicket.getVehicleType().price);
+    }
+
 
     /**
      * The Fare Calculation Strategy

@@ -46,7 +46,6 @@ public class ParkingApplication implements CommandLineRunner {
             System.out.print("Enter the vehicleType and vehicle no : ");
             String vehicle = scanner.nextLine();
             String vehicleNo = scanner.nextLine();
-
             VehicleType vehicleType = VehicleType.valueOf(vehicle);
             Vehicle vehicle1 = new Vehicle();
             ParkingTicket parkingTicket = parkingManager.getParkingTicket(vehicle1);

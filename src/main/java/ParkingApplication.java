@@ -3,13 +3,16 @@ import domain.dto.Parking.parkingBoard.ParkingLevel;
 import domain.dto.ParkingManager;
 import domain.dto.Ticket.ParkingTicket;
 import domain.enums.VehicleType;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @SpringBootApplication
-public class ParkingApplication {
+public class ParkingApplication implements CommandLineRunner {
     //Create Parking Levels
     public static final int parkingLevels = 5;
 
@@ -23,14 +26,35 @@ public class ParkingApplication {
 
     public static void main(String args[]) {
         parkingLevelList = new ArrayList<>();
-        initializeParkingLevels(parkingLevels);
-        ParkingManager parkingManager = new ParkingManager(parkingLevelList);
-        Vehicle vehicle = Vehicle.builder()
-                .vehicleType(VehicleType.BIKE)
-                .vehicleNumber("2").build();
-        ParkingTicket parkingTicket = parkingManager.getParkingTicket(vehicle);
-        parkingManager.parkVehicle(parkingTicket);
     }
 
+    /**
+     * Callback used to run the bean.
+     *
+     * @param args incoming main method arguments
+     * @throws Exception on error
+     */
+    @Override
+    public void run(String... args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the no of parking levels : ");
+        // Read the input from the user
+        String parkingLevelsSize = scanner.nextLine();
+        initializeParkingLevels(Integer.parseInt(parkingLevelsSize));
+        ParkingManager parkingManager = new ParkingManager(parkingLevelList);
+        while (true) {
+            System.out.print("Enter the vehicleType and vehicle no : ");
+            String vehicle = scanner.nextLine();
+            String vehicleNo = scanner.nextLine();
 
+            VehicleType vehicleType = VehicleType.valueOf(vehicle);
+            Vehicle vehicle1 = new Vehicle();
+            ParkingTicket parkingTicket = parkingManager.getParkingTicket(vehicle1);
+            System.out.println("Parking level :" + parkingTicket.getParkingLevel());
+            System.out.println("Vehicle Number :" + parkingTicket.getVehicleNumber());
+            System.out.println("Parking Time :" + parkingTicket.getParkingEntryDateTime());
+            System.out.println("Parking Exit :" + parkingTicket.getParkingEntryDateTime().plus(parkingTicket.getParkingDuration()));
+            parkingManager.parkVehicle(parkingTicket);
+        }
+    }
 }

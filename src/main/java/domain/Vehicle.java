@@ -1,13 +1,14 @@
 package domain;
 
 import domain.enums.VehicleType;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.Duration;
 
-@Builder
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vehicle {
     VehicleType vehicleType;
     String vehicleNumber;
